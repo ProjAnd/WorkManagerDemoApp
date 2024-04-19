@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import java.util.concurrent.TimeUnit
@@ -19,18 +21,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel =  NotificationChannel("default", "Default",
-                NotificationManager.IMPORTANCE_DEFAULT)
-            val notifManager = getSystemService(NotificationManager::class.java)
-            notifManager.createNotificationChannel(channel)
-        }
+
         val notifWorkerRequest : WorkRequest =
-            OneTimeWorkRequest.Builder(NotificationWorker::class.java)
-                .apply {
-                    setInitialDelay(1, TimeUnit.MINUTES)
-                }
-                .build()
+            /*A one-time work request that runs once and then stops*/
+//            OneTimeWorkRequestBuilder<NotificationWorker>()
+//                .apply {
+//                    setInitialDelay(1, TimeUnit.MINUTES)
+//                }
+//                .build()
+
+            /*A work request that runs at specific intervals, such as once a day or once an hour*/
+            PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.MINUTES).
+                build()
 
         WorkManager.getInstance(this).enqueue(notifWorkerRequest)
 

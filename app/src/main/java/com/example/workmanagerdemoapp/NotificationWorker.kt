@@ -39,6 +39,12 @@ class NotificationWorker(context: Context, params: WorkerParameters)
         )
         notification.contentIntent = pIntent
 
+        //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val channel =  NotificationChannel("default", "Default",
+//                NotificationManager.IMPORTANCE_DEFAULT)
+//            val notifManager = getSystemService(NotificationManager::class.java)
+//            notifManager.createNotificationChannel(channel)
+//        }
 
         NotificationManagerCompat.from(applicationContext).notify(1, notification)
         //Toast.makeText(applicationContext, "dowork() called", Toast.LENGTH_LONG).show()
